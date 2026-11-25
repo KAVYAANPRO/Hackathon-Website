@@ -1,26 +1,139 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #070709;
+  --bg-secondary: #101014;
+  --bg-elevated: #16161c;
+  --text-primary: #f5f5f5;
+  --text-secondary: #92929c;
+  --accent-primary: #ff5c00;
+  --accent-secondary: #ffb36b;
+  --border-subtle: rgba(245, 245, 245, 0.09);
+  --border-strong: rgba(245, 245, 245, 0.2);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg-primary);
+  --color-surface: var(--bg-secondary);
+  --color-elevated: var(--bg-elevated);
+  --color-foreground: var(--text-primary);
+  --color-muted: var(--text-secondary);
+  --color-accent: var(--accent-primary);
+  --color-accent-soft: var(--accent-secondary);
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: rgba(255, 92, 0, 0.28);
+  color: #f5f5f5;
+}
+
+/* High-contrast accessible focus ring */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 3px;
+}
+
+/* Visually hidden utility that reveals on focus (e.g. skip links) */
+.visually-hidden:where(:not(:focus-within, :active)) {
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* Subtle architectural grid background (inspired by Ahmedabad stepwell geometry) */
+.bg-arch-grid {
+  background-image:
+    linear-gradient(to right, rgba(245, 245, 245, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 245, 245, 0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.bg-arch-grid-fine {
+  background-image:
+    linear-gradient(to right, rgba(245, 245, 245, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 245, 245, 0.025) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Subtle architectural corner brackets */
+.bracket-frame {
+  position: relative;
+}
+
+/* Accessible details/summary accordion animation */
+.ah-details::details-content {
+  interpolate-size: allow-keywords;
+  overflow: clip;
+  contain: layout;
+}
+
+.ah-details:not([open])::details-content {
+  block-size: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ah-details::details-content {
+    transition:
+      block-size 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+      content-visibility 0.32s allow-discrete,
+      display 0.32s allow-discrete;
+  }
+}
+
+.ah-summary {
+  list-style: none;
+}
+
+.ah-summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Subtle scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 245, 245, 0.14);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 92, 0, 0.55);
 }
